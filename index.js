@@ -38,7 +38,7 @@ const argv = yargs
     .epilog('Copyright ' + new Date().getFullYear()).argv;
 
 const config = require('./config').getConfigObject(argv);
-const connectionUrl = require('./connectionstring').createUrl(config.host, config.port, config.user, config.password);
+const connectionUrl = require('./connection-url').createUrl(config.host, config.port, config.user, config.password);
 require('./query').exec(connectionUrl, config.db, config.collection, config.command, config.query,
     config.fields, config.skip, config.limit).then(cursor=> {
        cursor.toArray().then(console.log);
