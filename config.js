@@ -23,15 +23,15 @@ module.exports.getConfigObject = function(argv = {}) {
     result.command = result.command || 'find';
     if (argv.q) {
         result.query = JSON.parse(argv.q);
-    } else if (argv.query) {
-        const fileData = fs.readFileSync(argv, 'utf8');
+    } else if (argv.queryFile) {
+        const fileData = fs.readFileSync(argv.queryFile, 'utf8');
         result.query = JSON.parse(fileData);
     }
     result.query = result.query || (result.command === 'aggregate' ? [] : {});
     result.skip = argv.s || (argv.s === 0 ? argv.s : result.skip) || 0;
     result.limit = argv.l || result.limit || 1000000;
-    if (argv.fields) {
-        const fields = argv.fields.split(',');
+    if (argv.f) {
+        const fields = argv.f.split(',').map(field => field.trim());
         result.fields = fields.length ? fields : result.fields;
     }
     result.fields = result.fields || [];
@@ -39,3 +39,4 @@ module.exports.getConfigObject = function(argv = {}) {
     result.type = argv.t || result.type || 'json';
     return result;
 };
+
