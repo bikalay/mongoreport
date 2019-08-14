@@ -38,8 +38,8 @@ module.exports.getConfigObject = function(argv = {}) {
         result.fields = fields.length ? fields : result.fields;
     }
     result.fields = result.fields || [];
-    result.output = argv.o || result.output;
     result.type = argv.t || result.type || 'json';
+    result.output = argv.o || result.output || 'output.' + result.type;
     return result;
 };
 

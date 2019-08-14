@@ -10,7 +10,7 @@ const MongoClient = require('mongodb').MongoClient;
  * @param { Array } fields
  * @param { number } skip
  * @param { number } limit
- * @returns {Promise<Array>}
+ * @returns {Promise<Cursor>}
  */
 module.exports.exec = function (url, dbName, collectionName, command = 'find', queryData = {}, fields = [], skip = 0, limit = 100000) {
     return MongoClient.connect(url).then(client => {

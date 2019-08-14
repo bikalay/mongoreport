@@ -1,4 +1,5 @@
 const yargs = require('yargs');
+const writeFile = require('./write-file');
 
 const argv = yargs
     .usage('Usage: $0 <command> [options]')
@@ -41,8 +42,11 @@ const config = require('./config').getConfigObject(argv);
 const connectionUrl = require('./connection-url').createUrl(config.host, config.port, config.user, config.password);
 require('./query').exec(connectionUrl, config.db, config.collection, config.command, config.query,
     config.fields, config.skip, config.limit).then(cursor=> {
-       cursor.toArray().then(console.log);
-});
+        return writeFile.csv('output.csv', cursor);
+}).then(() => {
+        console.info('Success!!!');
+        process.exit(1);
+}).catch(console.error);
 
 
 
