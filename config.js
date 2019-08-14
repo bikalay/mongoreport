@@ -1,5 +1,8 @@
 const fs = require('fs');
-
+/**
+ * Returns report configuration object;
+ * @param {Object} argv - command arguments
+ */
 module.exports.getConfigObject = function(argv = {}) {
     const result = {};
     const {config} = argv;
