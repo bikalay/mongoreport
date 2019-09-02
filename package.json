@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "coverage": "jest --coverage",
-    "test2": " node index.js find -p 27018 -d explorer_stage -u explorer -w iop123explorer -c users -t csv"
+    "coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -30,6 +29,7 @@
     "yargs": "^13.3.0"
   },
   "devDependencies": {
+    "eslint": "^6.3.0",
     "jest": "^24.8.0"
   }
 }

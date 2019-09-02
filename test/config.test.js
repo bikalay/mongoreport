@@ -9,14 +9,14 @@ test('empty config object', () => {
         query: {},
         skip: 0,
         limit: 1000000,
-        type: 'json',
+        type: 'csv',
         fields: [],
         collection: undefined,
         db: undefined,
-        output: undefined,
+        output: 'output.csv',
         user: undefined,
         password: undefined
-    })
+    });
 });
 
 test('config with pass configuration object', () => {
@@ -85,7 +85,7 @@ test('query from file', () => {
         {$match: {}},
         {$group: {_id:'$privilege'}}
     ]);
-    expect(getConfigObject({_: ['aggregate'], c:'users', d:'test_db', u:'admin', w: 'adminPassword', o: 'report.json', queryFile: 'query.json'})).toEqual({
+    expect(getConfigObject({_: ['aggregate'], c:'users', d:'test_db', u:'admin', w: 'adminPassword', o: 'report.csv', queryFile: 'query.json'})).toEqual({
         host: 'localhost',
         port: 27017,
         command: 'aggregate',
@@ -95,11 +95,11 @@ test('query from file', () => {
         ],
         skip: 0,
         limit: 1000000,
-        type: 'json',
+        type: 'csv',
         fields: [],
         collection: 'users',
         db: 'test_db',
-        output: 'report.json',
+        output: 'report.csv',
         user: 'admin',
         password: 'adminPassword'
     });

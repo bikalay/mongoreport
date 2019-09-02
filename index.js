@@ -35,6 +35,7 @@ const argv = yargs
     .alias('t', 'type')
     .describe('t', 'Output type')
     .describe('config', 'Path to json file with configuration')
+    .describe('populate', 'Array of populated fields')
     .help('help')
     .epilog('Copyright ' + new Date().getFullYear()).argv;
 
@@ -42,10 +43,10 @@ const config = require('./config').getConfigObject(argv);
 const connectionUrl = require('./connection-url').createUrl(config.host, config.port, config.user, config.password);
 require('./query').exec(connectionUrl, config.db, config.collection, config.command, config.query,
     config.fields, config.skip, config.limit).then(cursor=> {
-        return writeFile.csv('output.csv', cursor);
+    return writeFile.csv('output.csv', cursor);
 }).then(() => {
-        console.info('Success!!!');
-        process.exit(1);
+    console.info('Success!!!');
+    process.exit(0);
 }).catch(console.error);
 
 

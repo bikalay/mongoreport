@@ -17,14 +17,14 @@ module.exports.processColumns = (item, columns = {}, parentKey) => {
         if (parentKey) {
             key = parentKey + '.' + key;
         }
-        if (Object.prototype.toString.call(value) === '[object Object]' && value._bsontype !== "ObjectID") {
+        if (Object.prototype.toString.call(value) === '[object Object]' && value._bsontype !== 'ObjectID') {
             this.processColumns(value, columns, key);
         } else if (!columns[key]) {
             columns[key] = {
                 key,
                 name: utils.capitalize(key),
                 order: Object.keys(columns).length
-            }
+            };
         }
 
     });
@@ -33,7 +33,22 @@ module.exports.processColumns = (item, columns = {}, parentKey) => {
 
 module.exports.generateCSVHeader = (columns) => {
     const keys = Object.keys(columns);
-    return keys.map(key => columns[key].name).join(';')
+    return keys.map(key => columns[key].name).join(';');
+};
+
+/**
+ *
+ * @param {*} value
+ * @return {string}
+ */
+module.exports.processCellValue = (value) => {
+    if (typeof value === 'string') {
+        return '"' + value.replace(/"/img, '""') + '"';
+    }
+    if (Object.prototype.toString.call(value) === '[object Date]') {
+        return '"' + value.toISOString() + '"';
+    }
+    return '"' +  value + '"';
 };
 
 /**
@@ -51,19 +66,21 @@ module.exports.documentToCsvRow =  (item, columns) => {
             if (parentKey) {
                 key = parentKey + '.' + key;
             }
-            if (Object.prototype.toString.call(value) === '[object Object]' && value._bsontype !== "ObjectID") {
+            if (Object.prototype.toString.call(value) === '[object Object]' && value._bsontype !== 'ObjectID') {
                 processItem(value, arr, key);
             } else {
                 const column = columns[key];
                 if (column) {
-                    arr[column.order] = value;
+                    arr[column.order] = this.processCellValue(value);
                 }
             }
-        })
+        });
     };
     processItem(item, arr);
     return arr.join(';');
 };
+
+
 
 /**
  *  Creates csv file
@@ -84,7 +101,7 @@ module.exports.csv =  (fileName, cursor) => {
                 }
             };
             resolve(cursor.next().then(processItem));
-        })
+        });
     }).then(() => {
         stream.end();
         return new Promise((resolve, reject) => {
@@ -94,8 +111,8 @@ module.exports.csv =  (fileName, cursor) => {
                 }
                 return resolve();
             });
-        })
-    })
+        });
+    });
 };
 
 
