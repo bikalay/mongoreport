@@ -33,7 +33,8 @@ test('config with pass configuration object', () => {
         d: 'test_db',
         o: 'report.csv',
         u: 'admin',
-        w: 'adminPassword'
+        w: 'adminPassword',
+        populate: 'member:Members,company:Organizations'
     };
     expect(getConfigObject(argv)).toEqual({
         host: '127.0.0.1',
@@ -48,8 +49,9 @@ test('config with pass configuration object', () => {
         db: 'test_db',
         output: 'report.csv',
         user: 'admin',
-        password: 'adminPassword'
-    })
+        password: 'adminPassword',
+        populate: {member: 'Members', company: 'Organizations'}
+    });
 });
 
 test('config from config file', () => {

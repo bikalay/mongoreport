@@ -24,6 +24,13 @@ module.exports.getConfigObject = function(argv = {}) {
         result.command = argv._[0] || result.command;
     }
     result.command = result.command || 'find';
+    if (argv.populate) {
+        result.populate = result.populate || {};
+        argv.populate.split(',').forEach(item => {
+            const _itemArr = item.split(':');
+            result.populate[_itemArr[0]] = _itemArr[1];
+        });
+    }
     if (argv.q) {
         result.query = JSON.parse(argv.q);
     } else if (argv.queryFile) {

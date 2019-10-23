@@ -42,7 +42,7 @@ const argv = yargs
 const config = require('./config').getConfigObject(argv);
 const connectionUrl = require('./connection-url').createUrl(config.host, config.port, config.user, config.password);
 require('./query').exec(connectionUrl, config.db, config.collection, config.command, config.query,
-    config.fields, config.skip, config.limit).then(cursor=> {
+    config.fields, config.skip, config.limit, config.populate).then(cursor=> {
     return writeFile.csv('output.csv', cursor);
 }).then(() => {
     console.info('Success!!!');
